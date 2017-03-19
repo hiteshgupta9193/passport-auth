@@ -60,7 +60,7 @@ function authCb(req, res, next, err, user, info) {
   if (err) { return next(err); }
   if (!user) { return res.send({ msg: info }); }
 
-  // req / res held in closure 
+  // req / res held in closure
   req.logIn(user, (err) => {
     if (err) { return next(err); }
     return res.send(user);

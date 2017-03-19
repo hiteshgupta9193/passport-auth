@@ -9,6 +9,24 @@ router.route('/signup')
 router.route('/login')
   .post(authController.login);
 
+router.route('/facebook')
+  .get(authController.facebookLogin);
+
+router.route('/facebook/callback')
+  .get(authController.facebookLoginCb);
+
+router.route('/twitter')
+  .get(authController.twitterLogin);
+
+router.route('/twitter/callback')
+  .get(authController.twitterLoginCb);
+
+router.route('/google')
+  .get(authController.googleLogin);
+
+router.route('/google/callback')
+  .get(authController.googleLoginCb);
+
 router.route('/logout')
   .get(authController.logout);
 

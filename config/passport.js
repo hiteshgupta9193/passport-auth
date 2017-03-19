@@ -1,4 +1,7 @@
 const LocalStrategy = require('passport-local').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
+const TwitterStrategy = require('passport-twitter').Strategy;
+const GoogleStrategy = require('passport-google').Strategy;
 const User = require('../modules/auth/user.model');
 const appKeys = require('./keys');
 

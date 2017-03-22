@@ -38,17 +38,17 @@ exports.twitterLoginCb = (req, res, next) => {
   })(req, res, next);
 }
 
-// exports.googleLogin = (req, res, next) => {
-//   console.log('google login');
-//   passport.authenticate('google', { scope: ['profile', 'email'] })
-// }
+exports.googleLogin = (req, res, next) => {
+  console.log('google login');
+  passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
+}
 
-// exports.googleLoginCb = (req, res, next) => {
-//   console.log('google login cb');
-//   passport.authenticate('google', (err, user, info) => {
-//     authCb(req, res, next, err, user, info);
-//   })(req, res, next);
-// }
+exports.googleLoginCb = (req, res, next) => {
+  console.log('google login cb');
+  passport.authenticate('google', (err, user, info) => {
+    authCb(req, res, next, err, user, info);
+  })(req, res, next);
+}
 
 exports.logout = (req, res, next) => {
   console.log('logout');

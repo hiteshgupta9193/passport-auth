@@ -21,11 +21,11 @@ router.route('/twitter')
 router.route('/twitter/callback')
   .get(authController.twitterLoginCb);
 
-// router.route('/google')
-//   .get(authController.googleLogin);
+router.route('/google')
+  .get(authController.googleLogin);
 
-// router.route('/google/callback')
-//   .get(authController.googleLoginCb);
+router.route('/google/callback')
+  .get(authController.googleLoginCb);
 
 router.route('/logout')
   .get(authController.logout);

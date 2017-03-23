@@ -16,7 +16,7 @@ exports.login = (req, res, next) => {
 
 exports.facebookLogin = (req, res, next) => {
   console.log('fb login');
-  passport.authenticate('facebook', { scope: 'email' });
+  passport.authenticate('facebook', { scope: 'email' })(req, res, next);
 }
 
 exports.facebookLoginCb = (req, res, next) => {
@@ -28,7 +28,7 @@ exports.facebookLoginCb = (req, res, next) => {
 
 exports.twitterLogin = (req, res, next) => {
   console.log('twitter login');
-  passport.authenticate('twitter');
+  passport.authenticate('twitter')(req, res, next);
 }
 
 exports.twitterLoginCb = (req, res, next) => {

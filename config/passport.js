@@ -1,10 +1,9 @@
 const LocalStrategy = require('passport-local').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
 const TwitterStrategy = require('passport-twitter').Strategy;
-// const GoogleStrategy = require('passport-google').Strategy;
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('../modules/auth/user.model');
-const appKeys = require('./keys');
+const appKeys = require('./config').authKeys;
 
 module.exports = (passport) => {
   passport.serializeUser((user, done) => {
@@ -31,10 +30,11 @@ module.exports = (passport) => {
           } else {
             var newUser = new User();
             newUser.email = email;
+            newUser.name = req.body.name;
             newUser.password = newUser.generateHash(password);
             newUser.save((err) => {
               if (err)
-                throw err;
+                return done(err);
               return done(null, newUser);
             });
           }
@@ -81,7 +81,7 @@ module.exports = (passport) => {
 
             newUser.save(function (err) {
               if (err)
-                throw err;
+                return done(err);
               return done(null, newUser);
             });
           }
@@ -89,33 +89,33 @@ module.exports = (passport) => {
       });
     }));
 
-  passport.use(new TwitterStrategy({
-    consumerKey: appKeys.twitterAuth.consumerKey,
-    consumerSecret: appKeys.twitterAuth.consumerSecret,
-    callbackURL: appKeys.twitterAuth.callbackURL,
-  },
-    function (token, tokenSecret, profile, done) {
-      process.nextTick(function () {
-        User.findOne({ 'twitter.id': profile.id }, function (err, user) {
-          if (err)
-            return done(err);
-          if (user) {
-            return done(null, user);
-          } else {
-            var newUser = new User();
-            newUser.twitter.id = profile.id;
-            newUser.twitter.token = token;
-            newUser.twitter.username = profile.username;
-            newUser.twitter.displayName = profile.displayName;
-            newUser.save(function (err) {
-              if (err)
-                throw err;
-              return done(null, newUser);
-            });
-          }
-        });
-      });
-    }));
+  // passport.use(new TwitterStrategy({
+  //   consumerKey: appKeys.twitterAuth.consumerKey,
+  //   consumerSecret: appKeys.twitterAuth.consumerSecret,
+  //   callbackURL: appKeys.twitterAuth.callbackURL,
+  // },
+  //   function (token, tokenSecret, profile, done) {
+  //     process.nextTick(function () {
+  //       User.findOne({ 'twitter.id': profile.id }, function (err, user) {
+  //         if (err)
+  //           return done(err);
+  //         if (user) {
+  //           return done(null, user);
+  //         } else {
+  //           var newUser = new User();
+  //           newUser.twitter.id = profile.id;
+  //           newUser.twitter.token = token;
+  //           newUser.twitter.username = profile.username;
+  //           newUser.twitter.displayName = profile.displayName;
+  //           newUser.save(function (err) {
+  //             if (err)
+  //               return done(err);
+  //             return done(null, newUser);
+  //           });
+  //         }
+  //       });
+  //     });
+  //   }));
 
   passport.use(new GoogleStrategy({
     clientID: appKeys.googleAuth.clientID,
@@ -137,7 +137,7 @@ module.exports = (passport) => {
             newUser.google.email = profile.emails[0].value;
             newUser.save(function (err) {
               if (err)
-                throw err;
+                return done(err);
               return done(null, newUser);
             });
           }

@@ -15,11 +15,11 @@ router.route('/facebook')
 router.route('/facebook/callback')
   .get(authController.facebookLoginCb);
 
-router.route('/twitter')
-  .get(authController.twitterLogin);
+// router.route('/twitter')
+//   .get(authController.twitterLogin);
 
-router.route('/twitter/callback')
-  .get(authController.twitterLoginCb);
+// router.route('/twitter/callback')
+//   .get(authController.twitterLoginCb);
 
 router.route('/google')
   .get(authController.googleLogin);
@@ -30,9 +30,16 @@ router.route('/google/callback')
 router.route('/logout')
   .get(authController.logout);
 
-router.get('/profile', isLoggedIn, (req, res) => {
-  res.send({ user: req.user });
-});
+router.route('/profile')
+  .get(isLoggedIn, authController.getProfile);
+
+// router.get('/profile', isLoggedIn, (req, res) => {
+//   res.send({ user: req.user });
+// });
+
+router.route('/verifymail')
+  .post(authController.sendMail)
+  .get(authController.verifyMail);
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
